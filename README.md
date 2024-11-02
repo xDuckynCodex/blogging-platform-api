@@ -1,143 +1,154 @@
-You are required to create a simple RESTful API with basic CRUD operations for a personal blogging platform. CRUD stands for Create, Read, Update, and Delete.
 
-Goals
-The goals of this project are to help you:
+# RESTful API for Personal Blogging Platform
 
-Understand what the RESTful APIs are including best practices and conventions
-Learn how to create a RESTful API
-Learn about common HTTP methods like GET, POST, PUT, PATCH, DELETE
-Learn about status codes and error handling in APIs
-Learn how to perform CRUD operations using an API
-Learn how to work with databases
-Requirements
-You should create a RESTful API for a personal blogging platform. The API should allow users to perform the following operations:
+### Source Requirements: [Blogging Platform API](https://roadmap.sh/projects/blogging-platform-api)
 
-Create a new blog post
-Update an existing blog post
-Delete an existing blog post
-Get a single blog post
-Get all blog posts
-Filter blog posts by a search term
-Given below are the details for each API operation.
+## Goals
+The main objectives of this project are to:
+- Understand RESTful APIs, best practices, and conventions.
+- Learn how to create a RESTful API.
+- Get familiar with common HTTP methods (GET, POST, PUT, PATCH, DELETE).
+- Understand status codes and error handling in APIs.
+- Perform CRUD operations using an API.
+- Work with databases.
 
-Create Blog Post
-Create a new blog post using the POST method
+## Requirements
+The RESTful API for a personal blogging platform should support the following operations:
+- Create a new blog post.
+- Update an existing blog post.
+- Delete an existing blog post.
+- Retrieve a single blog post.
+- Retrieve all blog posts.
+- Filter blog posts by a search term.
 
-POST /posts
+### CRUD Operations Details
+
+### 1. Create Blog Post
+**Method:** `POST /posts`
+
+**Request Body Example:**
+```json
 {
-"title": "My First Blog Post",
-"content": "This is the content of my first blog post.",
-"category": "Technology",
-"tags": ["Tech", "Programming"]
+  "title": "My First Blog Post",
+  "content": "This is the content of my first blog post.",
+  "category": "Technology",
+  "tags": ["Tech", "Programming"]
 }
-Each blog post should have the following fields:
+```
 
+**Response (201 Created):**
+```json
 {
-"title": "My First Blog Post",
-"content": "This is the content of my first blog post.",
-"category": "Technology",
-"tags": ["Tech", "Programming"]
+  "id": 1,
+  "title": "My First Blog Post",
+  "content": "This is the content of my first blog post.",
+  "category": "Technology",
+  "tags": ["Tech", "Programming"],
+  "createdAt": "2021-09-01T12:00:00Z",
+  "updatedAt": "2021-09-01T12:00:00Z"
 }
-The endpoint should validate the request body and return a 201 Created status code with the newly created blog post i.e.
+```
 
+**Errors (400 Bad Request):**
+- Return an error message with validation issues.
+
+### 2. Update Blog Post
+**Method:** `PUT /posts/{id}`
+
+**Request Body Example:**
+```json
 {
-"id": 1,
-"title": "My First Blog Post",
-"content": "This is the content of my first blog post.",
-"category": "Technology",
-"tags": ["Tech", "Programming"],
-"createdAt": "2021-09-01T12:00:00Z",
-"updatedAt": "2021-09-01T12:00:00Z"
+  "title": "My Updated Blog Post",
+  "content": "This is the updated content of my first blog post.",
+  "category": "Technology",
+  "tags": ["Tech", "Programming"]
 }
-or a 400 Bad Request status code with error messages in case of validation errors.
+```
 
-Update Blog Post
-Update an existing blog post using the PUT method
-
-PUT /posts/1
+**Response (200 OK):**
+```json
 {
-"title": "My Updated Blog Post",
-"content": "This is the updated content of my first blog post.",
-"category": "Technology",
-"tags": ["Tech", "Programming"]
+  "id": 1,
+  "title": "My Updated Blog Post",
+  "content": "This is the updated content of my first blog post.",
+  "category": "Technology",
+  "tags": ["Tech", "Programming"],
+  "createdAt": "2021-09-01T12:00:00Z",
+  "updatedAt": "2021-09-01T12:30:00Z"
 }
-The endpoint should validate the request body and return a 200 OK status code with the updated blog post i.e.
+```
 
+**Errors:**
+- 400 Bad Request for validation issues.
+- 404 Not Found if the blog post does not exist.
+
+### 3. Delete Blog Post
+**Method:** `DELETE /posts/{id}`
+
+**Response (204 No Content):**
+- Indicates successful deletion.
+
+**Errors:**
+- 404 Not Found if the blog post does not exist.
+
+### 4. Get Single Blog Post
+**Method:** `GET /posts/{id}`
+
+**Response (200 OK):**
+```json
 {
-"id": 1,
-"title": "My Updated Blog Post",
-"content": "This is the updated content of my first blog post.",
-"category": "Technology",
-"tags": ["Tech", "Programming"],
-"createdAt": "2021-09-01T12:00:00Z",
-"updatedAt": "2021-09-01T12:30:00Z"
+  "id": 1,
+  "title": "My First Blog Post",
+  "content": "This is the content of my first blog post.",
+  "category": "Technology",
+  "tags": ["Tech", "Programming"],
+  "createdAt": "2021-09-01T12:00:00Z",
+  "updatedAt": "2021-09-01T12:00:00Z"
 }
-or a 400 Bad Request status code with error messages in case of validation errors. It should return a 404 Not Found status code if the blog post was not found.
+```
 
-Delete Blog Post
-Delete an existing blog post using the DELETE method
+**Errors:**
+- 404 Not Found if the blog post does not exist.
 
-DELETE /posts/1
-The endpoint should return a 204 No Content status code if the blog post was successfully deleted or a 404 Not Found status code if the blog post was not found.
+### 5. Get All Blog Posts
+**Method:** `GET /posts`
 
-Get Blog Post
-Get a single blog post using the GET method
-
-GET /posts/1
-The endpoint should return a 200 OK status code with the blog post i.e.
-
-{
-"id": 1,
-"title": "My First Blog Post",
-"content": "This is the content of my first blog post.",
-"category": "Technology",
-"tags": ["Tech", "Programming"],
-"createdAt": "2021-09-01T12:00:00Z",
-"updatedAt": "2021-09-01T12:00:00Z"
-}
-or a 404 Not Found status code if the blog post was not found.
-
-Get All Blog Posts
-Get all blog posts using the GET method
-
-GET /posts
-The endpoint should return a 200 OK status code with an array of blog posts i.e.
-
+**Response (200 OK):**
+```json
 [
-{
-"id": 1,
-"title": "My First Blog Post",
-"content": "This is the content of my first blog post.",
-"category": "Technology",
-"tags": ["Tech", "Programming"],
-"createdAt": "2021-09-01T12:00:00Z",
-"updatedAt": "2021-09-01T12:00:00Z"
-},
-{
-"id": 2,
-"title": "My Second Blog Post",
-"content": "This is the content of my second blog post.",
-"category": "Technology",
-"tags": ["Tech", "Programming"],
-"createdAt": "2021-09-01T12:30:00Z",
-"updatedAt": "2021-09-01T12:30:00Z"
-}
+  {
+    "id": 1,
+    "title": "My First Blog Post",
+    "content": "This is the content of my first blog post.",
+    "category": "Technology",
+    "tags": ["Tech", "Programming"],
+    "createdAt": "2021-09-01T12:00:00Z",
+    "updatedAt": "2021-09-01T12:00:00Z"
+  },
+  {
+    "id": 2,
+    "title": "My Second Blog Post",
+    "content": "This is the content of my second blog post.",
+    "category": "Technology",
+    "tags": ["Tech", "Programming"],
+    "createdAt": "2021-09-01T12:30:00Z",
+    "updatedAt": "2021-09-01T12:30:00Z"
+  }
 ]
-You don’t have to implement pagination, authentication or authorization for this project. You can focus on the core functionality of the API.
+```
 
-While retrieving posts, user can also filter posts by a search term. You should do a wildcard search on the title, content or category fields of the blog posts. For example:
+### 6. Filter Blog Posts by Search Term
+**Method:** `GET /posts?term=searchTerm`
 
-GET /posts?term=tech
-This should return all blog posts that have the term “tech” in their title, content or category. You can use a simple SQL query if you are using a SQL database or a similar query for a NoSQL database.
+**Description:** Performs a wildcard search on `title`, `content`, or `category` fields.
 
-Tech Stack
-Feel free to use any programming language, framework, and database of your choice for this project. Here are some suggestions:
+## Tech Stack Recommendations
+- **Programming Languages/Frameworks:**
+  - JavaScript: Node.js with Express.js
+  - Python: Flask or Django
+  - Java: Spring Boot
+  - Ruby: Ruby on Rails
 
-If you are using JavaScript, you can use Node.js with Express.js
-If you are using Python, you can use Flask or Django
-If you are using Java, you can use Spring Boot
-If you are using Ruby, you can use Ruby on Rails
-For databases, you can use:
-
-MySQL if you are using SQL
-MongoDB if you are using NoSQL
+- **Databases:**
+  - SQL: MySQL
+  - NoSQL: MongoDB
